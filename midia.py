@@ -1,0 +1,1 @@
+# Método para exibir informações gerais.
