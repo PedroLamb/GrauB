@@ -1,5 +1,5 @@
 class Midia:
-    def __init__(self, id, tipo, titulo, genero, ano_lancamento, classificacao) -> None:
+    def __init__(self, id, tipo, titulo, genero, ano_lancamento, classificacao):
         self.id = id
         self.tipo = tipo
         self.titulo = titulo
@@ -9,15 +9,15 @@ class Midia:
 
     def exibirInformacoes(self) -> str:
         print('''ID: {}
-        Tipo: {}
-        Título: {}
-        Gênero: {}
-        Ano de Lançamento: {}
-        Classificação: {}'''.format(self.id, self.tipo, self.titulo, self.genero, self.ano_lancamento, self.classificacao))
+Tipo: {}
+Título: {}
+Gênero: {}
+Ano de Lançamento: {}
+Classificação: {}'''.format(self.id, self.tipo, self.titulo, self.genero, self.ano_lancamento, self.classificacao))
 
 
 class Serie(Midia):
-    def __init__(self, id, tipo, titulo, genero, ano_lancamento, classificacao, temporadas) -> None:
+    def __init__(self, id, tipo, titulo, genero, ano_lancamento, classificacao, temporadas):
         super().__init__(id, tipo, titulo, genero, ano_lancamento, classificacao)
         self.temporadas = temporadas
         self.lista_episodios = []
@@ -31,7 +31,7 @@ class Serie(Midia):
 
 
 class Filme(Midia):
-    def __init__(self, id, tipo, titulo, genero, ano_lancamento, classificacao, diretor, produtor) -> None:
+    def __init__(self, id, tipo, titulo, genero, ano_lancamento, classificacao, diretor, produtor):
         super().__init__(id, tipo, titulo, genero, ano_lancamento, classificacao)
         self.diretor = diretor
         self.produtor = produtor
@@ -39,12 +39,12 @@ class Filme(Midia):
     def exibirInformacoes(self) -> str:
         super().exibirInformacoes()
         print('''Diretor: {}
-        Produtor: {}'''.format(self.diretor, self.produtor))
+Produtor: {}'''.format(self.diretor, self.produtor))
 
 
 
 class Documentario(Midia):
-    def __init__(self, id, tipo, titulo, genero, ano_lancamento, classificacao, tema) -> None:
+    def __init__(self, id, tipo, titulo, genero, ano_lancamento, classificacao, tema):
         super().__init__(id, tipo, titulo, genero, ano_lancamento, classificacao)
         self.tema = tema
 
@@ -55,7 +55,7 @@ class Documentario(Midia):
 
 
 class Animacao(Midia):
-    def __init__(self, id, tipo, titulo, genero, ano_lancamento, classificacao, estudio) -> None:
+    def __init__(self, id, tipo, titulo, genero, ano_lancamento, classificacao, estudio):
         super().__init__(id, tipo, titulo, genero, ano_lancamento, classificacao)
         self.estudio = estudio
 
@@ -66,7 +66,7 @@ class Animacao(Midia):
 
 
 class ProgramaDeTV(Midia):
-    def __init__(self, id, tipo, titulo, genero, ano_lancamento, classificacao, nro_episodios) -> None:
+    def __init__(self, id, tipo, titulo, genero, ano_lancamento, classificacao, nro_episodios) :
         super().__init__(id, tipo, titulo, genero, ano_lancamento, classificacao)
         self.nro_episodios = nro_episodios
         self.lista_episodios = []

@@ -1,6 +1,7 @@
 from usuarios import Usuario
 from catalogo import Catalogo
 from midia import *
+from menus import *
 import csv
 
 catalogo_geral = Catalogo()
@@ -11,6 +12,12 @@ class Aplicacao:
         self.tela = 0
         self.terminou = False
         self.carregarMidia()
+
+
+    def criarUsuariosCSV(self):
+        with open('./arquivos/Usuarios.csv', 'a') as criarusuarios: 
+            pass 
+
 
     def executar(self):
         opcao = -1
@@ -24,6 +31,12 @@ class Aplicacao:
             elif self.tela == 2:
                 self.telaDois()
 
+    def telaInicial(self):
+        opcao = menuInicial()
+        if opcao == '0':
+            self.terminou = True
+
+
 
     def finalizar(self):
         print('Finalizando a aplicação...')
@@ -31,7 +44,7 @@ class Aplicacao:
 
 
     def carregarMidia(self):
-        arqMidia = open(r'C:\Users\victo\OneDrive\Documentos\repos\trabGB\GrauB\arquivos\catalogoGeral.csv', encoding='utf-8')
+        arqMidia = open('./arquivos/catalogoGeral.csv')
         leitor = csv.reader(arqMidia, delimiter=';')
         listaMidia = list(leitor)
         arqMidia.close()
@@ -42,25 +55,22 @@ class Aplicacao:
                 catalogo_geral.adicionarMidia(serie, 'Série')
             elif listaMidia[i][1] == 'Filme':
                 filme = Filme(listaMidia[i][0], listaMidia[i][1], listaMidia[i][2], listaMidia[i][3], listaMidia[i][4],
-                            listaMidia[i][5], listaMidia[i][6], listaMidia[i][7])
+                            listaMidia[i][5], listaMidia[i][7], listaMidia[i][8])
                 catalogo_geral.adicionarMidia(filme, 'Filme')
             elif listaMidia[i][1] == 'Documentário':
                 documentario = Documentario(listaMidia[i][0], listaMidia[i][1], listaMidia[i][2], listaMidia[i][3],
-                                            listaMidia[i][4], listaMidia[i][5], listaMidia[i][6])
+                                            listaMidia[i][4], listaMidia[i][5], listaMidia[i][9])
                 catalogo_geral.adicionarMidia(documentario, 'Documentário')
             elif listaMidia[i][1] == 'Animação':
                 animacao = Animacao(listaMidia[i][0], listaMidia[i][1], listaMidia[i][2], listaMidia[i][3], listaMidia[i][4],
-                                    listaMidia[i][5], listaMidia[i][6])
+                                    listaMidia[i][5], listaMidia[i][10])
                 catalogo_geral.adicionarMidia(animacao, 'Animação')
             else:
                 programadetv = ProgramaDeTV(listaMidia[i][0], listaMidia[i][1], listaMidia[i][2], listaMidia[i][3],
                                             listaMidia[i][4], listaMidia[i][5], listaMidia[i][6])
                 catalogo_geral.adicionarMidia(programadetv, 'Programa de TV')
 
-
-
-
-aplicacao1 = Aplicacao()
-
-print(catalogo_geral.lista_series)
-input('Press ENTER to continue...')
+    def telaInicial(self):
+        opcao = menuInicial()
+        if opcao == '0':
+            self.terminou = True

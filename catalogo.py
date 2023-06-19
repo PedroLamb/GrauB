@@ -11,7 +11,7 @@ class Catalogo:
             self.lista_series.append(midia)
         elif tipo == 'Filme':
             self.lista_filmes.append(midia)
-        elif tipo == 'Docunetário':
+        elif tipo == 'Documentário':
             self.lista_documentarios.append(midia)
         elif tipo == 'Animação':
             self.lista_animacoes.append(midia)
