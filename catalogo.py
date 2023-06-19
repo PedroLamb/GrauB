@@ -1,10 +1,10 @@
 class Catalogo:
-    def __init__(self) -> None:
-        lista_series = []
-        lista_filmes = []
-        lista_documentarios = []
-        lista_animacoes = []
-        lista_programasdetv = []
+    def __init__(self):
+        self.lista_series = []
+        self.lista_filmes = []
+        self.lista_documentarios = []
+        self.lista_animacoes = []
+        self.lista_programasdetv = []
 
     def adicionarMidia(self, midia, tipo):
         if tipo == 'Série':
