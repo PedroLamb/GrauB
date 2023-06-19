@@ -14,3 +14,13 @@ def menuInicial():
     print('3 - Sair')    
     item = input('Escolha uma opção: ')
     return item
+
+def menuPerfis():
+    print('1 - Alterar Assinatura')
+    print('2 - Acessar Perfil')
+    print('3 - Editar Perfil')
+    print('4 - Adicionar Perfil')
+    print('5 - Remover Perfil')
+    print('6 - Voltar ao menu anterior')
+    item = input('Escolha uma opção: ')
+    return item

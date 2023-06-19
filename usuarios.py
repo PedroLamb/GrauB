@@ -26,7 +26,6 @@ class Usuario:
         if tipoAssinatura == 'Simples' or tipoAssinatura == 'Premium':
             with open('./arquivos/Usuarios.csv', mode='r') as usuariosArq:
                 reader = csv.reader(usuariosArq, delimiter=';')
-                next(reader)
                 for row in reader:
                     if row[1] == nome:
                         print("Nome de usuário já existe.")
@@ -50,14 +49,13 @@ class Usuario:
             input('Pressione ENTER para retornar ao menu inicial...')
 
 
-        def adicionaPerfil(self,nome,idade):
-            perfil=[]
-            if self._tipoAsinatura == 'Simples' and len(perfil) < 3:
-                perfil.append(nome,idade)
-                return perfil
-            elif  self._tipoAsinatura == 'Premium' and len(perfil) < 5:
-                perfil.append(nome, idade)
-                return perfil
+    def adicionarPerfil(self,nome,idade):
+        perfil=[]
+        if self._tipoAsinatura == 'Simples' and len(perfil) < 3:
+            perfil.append(nome,idade)
+            return perfil
+        elif  self._tipoAsinatura == 'Premium' and len(perfil) < 5:
+            perfil.append(nome, idade)
+            return perfil
         
-
          

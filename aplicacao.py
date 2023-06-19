@@ -5,7 +5,7 @@ from menus import *
 import csv
 
 catalogo_geral = Catalogo()
-
+usuario_atual = []
 
 class Aplicacao:
     def __init__(self):
@@ -26,22 +26,16 @@ class Aplicacao:
                 self.telaInicial()
 
             elif self.tela == 1:
-                self.telaUm()
+                self.telaPerfis()
 
             elif self.tela == 2:
                 self.telaDois()
-
-    def telaInicial(self):
-        opcao = menuInicial()
-        if opcao == '0':
-            self.terminou = True
 
 
 
     def finalizar(self):
         print('Finalizando a aplicação...')
         input('Pressione ENTER para continuar...')
-
 
     def carregarMidia(self):
         arqMidia = open('./arquivos/catalogoGeral.csv')
@@ -70,10 +64,43 @@ class Aplicacao:
                                             listaMidia[i][4], listaMidia[i][5], listaMidia[i][6])
                 catalogo_geral.adicionarMidia(programadetv, 'Programa de TV')
 
+
+
     def telaInicial(self):
         opcao = menuInicial()
         if opcao == '3':
             self.terminou = True
+        elif opcao == '1':
+            nome = input('Informe seu nome de usuário: ')
+            senha = input('Informe sua senha: ')
+            resultado = logarUsuario(nome, senha)
+            if resultado is True:
+                usuario_atual.append(nome)
+                self.tela = 1
+            else:
+                print('Nome ou senha incorreto.')
+                input('Pressione ENTER para retornar ao menus inicial...')
+                return
+
         elif opcao == '2':
             novo_usuario =(Usuario('','','',''))
             novo_usuario.cadastrarUsuario()
+
+
+    def telaPerfis(self):
+        os.system('cls')
+        print('Olá {}!'.format(usuario_atual[0]))
+        opcao = menuPerfis()
+        if opcao == '6':
+            usuario_atual.clear()
+            self.tela = 0
+        
+
+
+def logarUsuario(nome, senha):
+    with open('./arquivos/usuarios.csv', mode = 'r', newline = '') as usuariosArq:
+        reader = csv.reader(usuariosArq, delimiter=';')
+        for row in reader:
+            if row [1] == nome and row[2] == senha:
+                return True
+        return False
