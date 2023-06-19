@@ -1,4 +1,4 @@
-from usuarios import Usuario
+from usuarios import *
 from catalogo import Catalogo
 from midia import *
 from menus import *
@@ -72,5 +72,8 @@ class Aplicacao:
 
     def telaInicial(self):
         opcao = menuInicial()
-        if opcao == '0':
+        if opcao == '3':
             self.terminou = True
+        elif opcao == '2':
+            novo_usuario =(Usuario('','','',''))
+            novo_usuario.cadastrarUsuario()
