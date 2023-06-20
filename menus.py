@@ -38,3 +38,10 @@ def menuLogado():
     print('9 - Retornar ao menu anterior')
     item = input('Escolha uma opção: ')
     return item
+
+def menuMidiaNormal():
+    print('1 - Assistir')
+    print('2 - Favoritar/Desfavoritar')
+    print('3 - Retornar ao menu anterior')
+    item = input('Escolha uma opção: ')
+    return item

@@ -76,11 +76,20 @@ class Perfil:
         self.nome = novo_nome
         self.idade = nova_idade
 
+    def ultimoAssistidoCheio(self):
+        return len(self.ultimos_assistidos) == 10
+
     def listarMidiasApropriadas(self):
         pass
 
-    def assistir(self):
-        pass
+    def assistir(self, midia):
+        print('{} está sendo exibido.'.format(midia.titulo))
+        if midia.id in self.ultimos_assistidos:
+            return
+        if self.ultimoAssistidoCheio() is True:
+            self.ultimos_assistidos = self.ultimos_assistidos[1:] + [midia.id]
+        else:
+            self.ultimos_assistidos.append(midia)
 
     def favoritar(midia):
         pass
