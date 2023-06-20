@@ -3,10 +3,11 @@ import csv
 
 class Usuario:
     def __init__(self,id, nome,senha,tipoAssinatura):
-        self._id = id
-        self._nome= nome
-        self._senha= senha
-        self._tipoAssinatura= tipoAssinatura
+        self.id = id
+        self.nome= nome
+        self.senha= senha
+        self.tipoAssinatura= tipoAssinatura
+        self.lista_perfis = []
    
 
     def cadastrarUsuario(self):
@@ -58,4 +59,27 @@ class Usuario:
             perfil.append(nome, idade)
             return perfil
         
-         
+class Perfil:
+    def __init__(self, nome, idade):
+         self.nome = nome
+         self.idade = idade
+         self.lista_favoritos = []
+         self.ultimos_assistidos = []
+
+    def adicionarFavorito(self, midia):
+        self.lista_favoritos.append(midia)
+
+    def removerFavorito(self, midia):
+        self.lista_favoritos.remove(midia)
+
+    def listarMidiasApropriadas(self):
+        pass
+
+    def assistir(self):
+        pass
+
+    def favoritar(midia):
+        pass
+
+    def buscarPorTitulo(titulo, catalogo):
+        pass
