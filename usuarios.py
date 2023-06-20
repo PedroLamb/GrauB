@@ -72,6 +72,10 @@ class Perfil:
     def removerFavorito(self, midia):
         self.lista_favoritos.remove(midia)
 
+    def editarPerfil(self, novo_nome, nova_idade):
+        self.nome = novo_nome
+        self.idade = nova_idade
+
     def listarMidiasApropriadas(self):
         pass
 

@@ -102,21 +102,51 @@ class Aplicacao:
         num = 1
         for perfil in perfis_atual:
             print('Perfil {}: {}'.format(num, perfil.nome))
-            num+=1
+            num += 1
         opcao = menuPerfis()
         if opcao == '3':
             os.system('cls')
+            num2 = 1
+            tamanho = len(perfis_atual) + 1
             for perfil in perfis_atual:
-                print('Perfil {}: {}'.format(num, perfil.nome))
-                num+=1
-            opcao = input('Selecione um perfil para editar: ')
+                print('Perfil {}: {}'.format(num2, perfil.nome))
+                num2 += 1
+            perfil_editar = int(input('Selecione um perfil para editar: '))
+            if perfil_editar > tamanho:
+                num2 = 1
+                print('Esse perfil não existe...')
+                return
+            else:
+                num2 = 1
+                novo_nome = input('Escolha um novo nome para o perfil: ')
+                nova_idade = input('Escolha uma nova idade para o perfil: ')
+                nome_antigo = str(perfis_atual[perfil_editar - 1].nome)
+                perfis_atual[perfil_editar - 1].editarPerfil(novo_nome, nova_idade)
+                print('Perfil editado com sucesso.')
+                input('Pressione ENTER para continuar...')
+                rows = []
+                count = 0
+                with open('./arquivos/perfis.csv', mode='r', newline='') as perfisArq:
+                    reader = csv.reader(perfisArq, delimiter=';')
+                    rows = list(reader)
 
+                if perfil_editar < len(rows):
+                    for perfil in rows:
+                        count+=1
+                        if perfil[1] == nome_antigo:
+                            rows[count-1][1] = novo_nome
+                            rows[count-1][2] = nova_idade
+                    with open('./arquivos/perfis.csv', mode='w', newline='') as perfisArq:
+                        writer = csv.writer(perfisArq, delimiter=';')
+                        writer.writerows(rows)
+                else:
+                    print('Esse perfil não existe no arquivo CSV.')
+
+                input('Pressione ENTER para continuar...')
         elif opcao == '6':
             usuario_atual.clear()
             perfis_atual.clear()
             self.tela = 0
-        
-
 
 def logarUsuario(nome, senha):
     with open('./arquivos/usuarios.csv', mode='r', newline='') as usuariosArq:
