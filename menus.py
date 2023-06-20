@@ -45,3 +45,10 @@ def menuMidiaNormal():
     print('3 - Retornar ao menu anterior')
     item = input('Escolha uma opção: ')
     return item
+
+def menuMidiaSeriePrograma():
+    print('1 - Listar Episódios')
+    print('2 - Favoritar/Desfavoritar')
+    print('3 - Retornar ao menu anterior')
+    item = input('Escolha uma opção: ')
+    return item

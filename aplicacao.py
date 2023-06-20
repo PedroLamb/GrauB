@@ -3,19 +3,22 @@ from catalogo import Catalogo
 from midia import *
 from menus import *
 import csv
-from unidecode import unidecode
 
 catalogo_geral = Catalogo()
 usuario_atual = []
 perfis_atual = []
 perfil_acessado = []
 midia_acessada = []
+episodios = []
+
 
 class Aplicacao:
     def __init__(self):
         self.tela = 0
         self.terminou = False
         self.carregarMidia()
+        self.carregarEpisodios()
+        self.distribuirEpisodios()
 
 
     def criarUsuariosCSV(self):
@@ -50,7 +53,7 @@ class Aplicacao:
         listaMidia = list(leitor)
         arqMidia.close()
         for i in range(len(listaMidia)):
-            if listaMidia[i][1] == 'Série':
+            if listaMidia[i][1] == 'Serie':
                 serie = Serie(listaMidia[i][0], listaMidia[i][1], listaMidia[i][2], listaMidia[i][3], listaMidia[i][4],
                             listaMidia[i][5], listaMidia[i][6])
                 catalogo_geral.adicionarMidia(serie, 'Série')
@@ -58,11 +61,11 @@ class Aplicacao:
                 filme = Filme(listaMidia[i][0], listaMidia[i][1], listaMidia[i][2], listaMidia[i][3], listaMidia[i][4],
                             listaMidia[i][5], listaMidia[i][7], listaMidia[i][8])
                 catalogo_geral.adicionarMidia(filme, 'Filme')
-            elif listaMidia[i][1] == 'Documentário':
+            elif listaMidia[i][1] == 'Documentario':
                 documentario = Documentario(listaMidia[i][0], listaMidia[i][1], listaMidia[i][2], listaMidia[i][3],
                                             listaMidia[i][4], listaMidia[i][5], listaMidia[i][9])
                 catalogo_geral.adicionarMidia(documentario, 'Documentário')
-            elif listaMidia[i][1] == 'Animação':
+            elif listaMidia[i][1] == 'Animacao':
                 animacao = Animacao(listaMidia[i][0], listaMidia[i][1], listaMidia[i][2], listaMidia[i][3], listaMidia[i][4],
                                     listaMidia[i][5], listaMidia[i][10])
                 catalogo_geral.adicionarMidia(animacao, 'Animação')
@@ -71,6 +74,22 @@ class Aplicacao:
                                             listaMidia[i][4], listaMidia[i][5], listaMidia[i][6])
                 catalogo_geral.adicionarMidia(programadetv, 'Programa de TV')
 
+    def carregarEpisodios(self):
+        arqEpisodios = open('./arquivos/episodios.csv')
+        leitor = csv.reader(arqEpisodios, delimiter=';')
+        listaEpisodios = list(leitor)
+        arqEpisodios.close()
+
+
+        for i in range(1, len(listaEpisodios)):
+            episodio = Episodio(listaEpisodios[i][0], listaEpisodios[i][1], listaEpisodios[i][2], listaEpisodios[i][3])
+            episodios.append(episodio)
+
+    def distribuirEpisodios(self):
+        for episodio in episodios:
+            for serie in catalogo_geral.lista_series:
+                if episodio.serie == serie.titulo:
+                    serie.lista_episodios.append(episodio)
 
     def telaInicial(self):
         opcao = menuInicial()
@@ -304,9 +323,18 @@ class Aplicacao:
             self.tela = 1
 
     def telaMidia(self):
+        os.system('cls')
         midia_acessada[0].exibirInformacoes()
-        if midia_acessada[0].tipo == 'Série' or midia_acessada[0].tipo == 'Programa de TV':
-            pass
+        if midia_acessada[0].tipo == 'Serie' or midia_acessada[0].tipo == 'Programa de TV':
+            opcao = menuMidiaSeriePrograma()
+            if opcao == '1':
+                midia_acessada[0].listarEpisodios()
+                escolha_episodio = input('Escolha um episódio para assistir: ')
+                perfil_acessado[0].assistirSerie(midia_acessada[0], escolha_episodio)
+                input('Pressione ENTER para prosseguir...')
+            if opcao == '3':
+                midia_acessada.clear()
+                self.tela = 2
         else:
             opcao = menuMidiaNormal()
             if opcao == '1':

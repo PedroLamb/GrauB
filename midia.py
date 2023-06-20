@@ -27,7 +27,10 @@ class Serie(Midia):
         print('''Número de temporadas: {}'''.format(self.temporadas))    
 
     def listarEpisodios(self):
-        pass
+        count = 0
+        for episodio in self.lista_episodios:
+            count+=1
+            print('Episódio {} - {}'.format(count,episodio.titulo))
 
 
 class Filme(Midia):
@@ -77,3 +80,10 @@ class ProgramaDeTV(Midia):
 
     def listarEpisodios(self):
         pass
+
+class Episodio():
+    def __init__(self, nro, serie, titulo, temporada):
+        self.nro = nro
+        self.serie = serie
+        self.titulo = titulo
+        self.temporada = temporada 

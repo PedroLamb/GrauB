@@ -91,6 +91,15 @@ class Perfil:
         else:
             self.ultimos_assistidos.append(midia)
 
+    def assistirSerie(self, midia, episodio):
+        print('{} - Episódio {} está sendo exibido.'.format(midia.titulo, episodio))
+        if midia.id in self.ultimos_assistidos:
+            return
+        if self.ultimoAssistidoCheio() is True:
+            self.ultimos_assistidos = self.ultimos_assistidos[1:] + [midia.id]
+        else:
+            self.ultimos_assistidos.append(midia)
+
     def favoritar(midia):
         pass
 
