@@ -24,3 +24,17 @@ def menuPerfis():
     print('6 - Voltar ao menu anterior')
     item = input('Escolha uma opção: ')
     return item
+
+def menuLogado():
+    os.system('cls')
+    print('1 - Buscar por nome')
+    print('2 - Últimos assistidos')
+    print('3 - Favoritos')
+    print('4 - Filmes')
+    print('5 - Séries')
+    print('6 - Documentários')
+    print('7 - Animações')
+    print('8 - Programas de TV')
+    print('9 - Retornar ao menu anterior')
+    item = input('Escolha uma opção: ')
+    return item

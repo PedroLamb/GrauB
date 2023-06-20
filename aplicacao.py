@@ -7,6 +7,8 @@ import csv
 catalogo_geral = Catalogo()
 usuario_atual = []
 perfis_atual = []
+perfil_acessado = []
+midia_acessada = []
 
 class Aplicacao:
     def __init__(self):
@@ -30,7 +32,10 @@ class Aplicacao:
                 self.telaPerfis()
 
             elif self.tela == 2:
-                self.telaDois()
+                self.telaLogado()
+
+            elif self.tela == 3:
+                self.telaMidia()
 
 
 
@@ -64,7 +69,6 @@ class Aplicacao:
                 programadetv = ProgramaDeTV(listaMidia[i][0], listaMidia[i][1], listaMidia[i][2], listaMidia[i][3],
                                             listaMidia[i][4], listaMidia[i][5], listaMidia[i][6])
                 catalogo_geral.adicionarMidia(programadetv, 'Programa de TV')
-
 
 
     def telaInicial(self):
@@ -103,8 +107,24 @@ class Aplicacao:
         for perfil in perfis_atual:
             print('Perfil {}: {}'.format(num, perfil.nome))
             num += 1
+            tamanho2 = len(perfis_atual) +1
         opcao = menuPerfis()
-        if opcao == '3':
+        if opcao == '2':
+            os.system('cls')
+            num3 = 1
+            tamanho = len(perfis_atual) + 1
+            for perfil in perfis_atual:
+                print('Perfil {}: {}'.format(num3, perfil.nome))
+                num3+=1
+            perfil_escolha = int(input('Escolha qual perfil acessar: '))
+            if perfil_escolha > tamanho2:
+                print('Escolha um perfil válido...')
+                input('Pressione ENTER para retornar ao menu anterior...')
+                return
+            else:
+                perfil_acessado.append(perfis_atual[perfil_escolha-1])
+                self.tela = 2
+        elif opcao == '3':
             os.system('cls')
             num2 = 1
             tamanho = len(perfis_atual) + 1
@@ -147,6 +167,104 @@ class Aplicacao:
             usuario_atual.clear()
             perfis_atual.clear()
             self.tela = 0
+    
+    def telaLogado(self):
+        opcao = menuLogado()
+        if opcao == '1':
+            nome_procura = input('Procure o nome da mídia que deseja procurar: ')
+            for midia in catalogo_geral.lista_animacoes + catalogo_geral.lista_documentarios + catalogo_geral.lista_filmes + catalogo_geral.lista_programasdetv:
+                if midia.titulo == nome_procura:
+                    if int(perfil_acessado[0].idade) >= 18 or midia.classificacao != '18':
+                        print(midia.titulo)
+                        break
+                    else:
+                        print('Mídia +18 bloqueada.')
+                        break
+            input('Pressione ENTER para prosseguir...')
+        elif opcao == '2':
+            os.system('cls')
+            print('---Últimos assistidos---')
+            for midia in catalogo_geral.lista_animacoes + catalogo_geral.lista_documentarios + catalogo_geral.lista_filmes + catalogo_geral.lista_programasdetv:
+                for favorito in perfil_acessado[0].ultimos_assistidos:
+                    if midia.id == favorito:
+                        print (midia.titulo)
+            input('Pressione ENTER para prosseguir...')
+        elif opcao == '3':
+            os.system('cls')
+            print('---Favoritos---')
+            for midia in catalogo_geral.lista_animacoes + catalogo_geral.lista_documentarios + catalogo_geral.lista_filmes + catalogo_geral.lista_programasdetv:
+                for favorito in perfil_acessado[0].lista_favoritos:
+                    if midia.id == favorito:
+                        print (midia.titulo)
+            input('Pressione ENTER para prosseguir...')
+        elif opcao == '4':
+            os.system('cls')
+            count_filme = 0
+            print('---Filmes---')
+            for midia in catalogo_geral.lista_filmes:
+                    if int(perfil_acessado[0].idade) >= 18 or midia.classificacao != '18':
+                        print('{} - {}'.format(count_filme, midia.titulo))
+                    else:
+                        print('Mídia +18 bloqueada.')
+            escolha_filme = input('Digite o número do filme que deseja assistir ou 0 para retornar...')
+            if escolha_filme == 0:
+                return
+            elif perfil_acessado.idade < 18 and catalogo_geral.lista_filmes[escolha_filme].classificacao == '18':
+                print('Mídia +18 bloqueada escolhida, retornando ao menu anterior...')
+                input('Pressione ENTER para prosseguir...')
+                return
+            else:
+                midia_acessada.append(catalogo_geral.lista_filmes[escolha_filme-1])
+                self.tela = 3
+
+        elif opcao == '5':
+            os.system('cls')
+            count_series = 0
+            print('---Séries---')
+            for midia in catalogo_geral.lista_series:
+                    if int(perfil_acessado[0].idade) >= 18 or midia.classificacao != '18':
+                        print('{} - {}'.format(count_series, midia.titulo))
+                    else:
+                        print('Mídia +18 bloqueada.')
+            input('Pressione ENTER para prosseguir...')
+        elif opcao == '6':
+            os.system('cls')
+            count_documentarios = 0
+            print('---Documentários---')
+            for midia in catalogo_geral.lista_documentarios:
+                    if int(perfil_acessado[0].idade) >= 18 or midia.classificacao != '18':
+                        print('{} - {}'.format(count_documentarios, midia.titulo))
+                    else:
+                        print('Mídia +18 bloqueada.')
+            input('Pressione ENTER para prosseguir...')
+        elif opcao == '7':
+            os.system('cls')
+            count_animacoes = 0
+            print('---Animações---')
+            for midia in catalogo_geral.lista_animacoes:
+                    if int(perfil_acessado[0].idade) >= 18 or midia.classificacao != '18':
+                        print('{} - {}'.format(count_animacoes, midia.titulo))
+                    else:
+                        print('Mídia +18 bloqueada.')
+            input('Pressione ENTER para prosseguir...')
+        elif opcao == '8':
+            os.system('cls')
+            count_programasdetv = 0
+            print('---Programas de TV---')
+            for midia in catalogo_geral.lista_programasdetv:
+                    if int(perfil_acessado[0].idade) >= 18 or midia.classificacao != '18':
+                        print('{} - {}'.format(count_programasdetv, midia.titulo))
+                    else:
+                        print('Mídia +18 bloqueada.')
+            input('Pressione ENTER para prosseguir...')               
+        elif opcao == '9':
+            perfil_acessado.clear()
+            self.tela = 1
+
+    def telaMidia(self):
+        os.sys('cls')
+        midia_acessada[0].exibirInformacoes()
+
 
 def logarUsuario(nome, senha):
     with open('./arquivos/usuarios.csv', mode='r', newline='') as usuariosArq:
