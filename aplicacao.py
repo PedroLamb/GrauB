@@ -6,6 +6,7 @@ import csv
 
 catalogo_geral = Catalogo()
 usuario_atual = []
+perfis_atual = []
 
 class Aplicacao:
     def __init__(self):
@@ -76,31 +77,54 @@ class Aplicacao:
             resultado = logarUsuario(nome, senha)
             if resultado is True:
                 usuario_atual.append(nome)
+                with open('./arquivos/perfis.csv', mode='r', newline='') as perfisArq:
+                    reader = csv.reader(perfisArq, delimiter=';')
+                    for row in reader:
+                        if row[0] == nome:
+                            perfil = Perfil(row[1], row[2])
+                            perfil.lista_favoritos = row[3:13]
+                            perfil.ultimos_assistidos = row[13:23]
+                            perfis_atual.append(perfil)
                 self.tela = 1
             else:
                 print('Nome ou senha incorreto.')
-                input('Pressione ENTER para retornar ao menus inicial...')
+                input('Pressione ENTER para retornar ao menu inicial...')
                 return
 
         elif opcao == '2':
-            novo_usuario =(Usuario('','','',''))
+            novo_usuario = Usuario('', '', '', '')
             novo_usuario.cadastrarUsuario()
 
 
     def telaPerfis(self):
         os.system('cls')
-        print('Olá {}!'.format(usuario_atual[0]))
+        print('Olá {}!'.format(usuario_atual[0].nome))
+        num = 1
+        for perfil in perfis_atual:
+            print('Perfil {}: {}'.format(num, perfil.nome))
+            num+=1
         opcao = menuPerfis()
-        if opcao == '6':
+        if opcao == '3':
+            os.system('cls')
+            for perfil in perfis_atual:
+                print('Perfil {}: {}'.format(num, perfil.nome))
+                num+=1
+            opcao = input('Selecione um perfil para editar: ')
+
+        elif opcao == '6':
             usuario_atual.clear()
+            perfis_atual.clear()
             self.tela = 0
         
 
 
 def logarUsuario(nome, senha):
-    with open('./arquivos/usuarios.csv', mode = 'r', newline = '') as usuariosArq:
+    with open('./arquivos/usuarios.csv', mode='r', newline='') as usuariosArq:
         reader = csv.reader(usuariosArq, delimiter=';')
-        for row in reader:
-            if row [1] == nome and row[2] == senha:
+        lista_usuarios = list(reader)
+        for row in lista_usuarios:
+            if row[1] == nome and row[2] == senha:
+                usuario_login = Usuario(row[0], row[1], row[2], row[3])
+                usuario_atual.append(usuario_login)
                 return True
         return False
