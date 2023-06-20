@@ -192,7 +192,7 @@ class Aplicacao:
         opcao = menuLogado()
         if opcao == '1':
             nome_procura = input('Procure o nome da mídia que deseja procurar: ')
-            for midia in catalogo_geral.lista_animacoes + catalogo_geral.lista_documentarios + catalogo_geral.lista_filmes + catalogo_geral.lista_programasdetv:
+            for midia in catalogo_geral.lista_animacoes + catalogo_geral.lista_documentarios + catalogo_geral.lista_filmes + catalogo_geral.lista_programasdetv + catalogo_geral.lista_series:
                 if midia.titulo == nome_procura:
                     if int(perfil_acessado[0].idade) >= 18 or midia.classificacao != '18':
                         print(midia.titulo)
@@ -204,7 +204,7 @@ class Aplicacao:
         elif opcao == '2':
             os.system('cls')
             print('---Últimos assistidos---')
-            for midia in catalogo_geral.lista_animacoes + catalogo_geral.lista_documentarios + catalogo_geral.lista_filmes + catalogo_geral.lista_programasdetv:
+            for midia in catalogo_geral.lista_animacoes + catalogo_geral.lista_documentarios + catalogo_geral.lista_filmes + catalogo_geral.lista_programasdetv + catalogo_geral.lista_series:
                 for favorito in perfil_acessado[0].ultimos_assistidos:
                     if midia.id == favorito:
                         print (midia.titulo)
@@ -212,7 +212,7 @@ class Aplicacao:
         elif opcao == '3':
             os.system('cls')
             print('---Favoritos---')
-            for midia in catalogo_geral.lista_animacoes + catalogo_geral.lista_documentarios + catalogo_geral.lista_filmes + catalogo_geral.lista_programasdetv:
+            for midia in catalogo_geral.lista_animacoes + catalogo_geral.lista_documentarios + catalogo_geral.lista_filmes + catalogo_geral.lista_programasdetv + catalogo_geral.lista_series:
                 for favorito in perfil_acessado[0].lista_favoritos:
                     if midia.id == favorito:
                         print (midia.titulo)

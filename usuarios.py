@@ -87,19 +87,39 @@ class Perfil:
         if midia.id in self.ultimos_assistidos:
             return
         if self.ultimoAssistidoCheio() is True:
-            self.ultimos_assistidos = self.ultimos_assistidos[1:] + [midia.id]
+            self.ultimos_assistidos[9] = self.ultimos_assistidos[8]
+            self.ultimos_assistidos[8] = self.ultimos_assistidos[7]
+            self.ultimos_assistidos[7] = self.ultimos_assistidos[6]
+            self.ultimos_assistidos[6] = self.ultimos_assistidos[5]
+            self.ultimos_assistidos[4] = self.ultimos_assistidos[3]
+            self.ultimos_assistidos[3] = self.ultimos_assistidos[2]
+            self.ultimos_assistidos[2] = self.ultimos_assistidos[1]
+            self.ultimos_assistidos[1] = self.ultimos_assistidos[0]
+            self.ultimos_assistidos[0] = midia.id
+            print (self.ultimos_assistidos)
+
         else:
-            self.ultimos_assistidos.append(midia)
+            self.ultimos_assistidos.append(midia.id)
+            print(self.ultimos_assistidos)
 
     def assistirSerie(self, midia, episodio):
         print('{} - Episódio {} está sendo exibido.'.format(midia.titulo, episodio))
         if midia.id in self.ultimos_assistidos:
             return
         if self.ultimoAssistidoCheio() is True:
-            self.ultimos_assistidos = self.ultimos_assistidos[1:] + [midia.id]
+            self.ultimos_assistidos[9] = self.ultimos_assistidos[8]
+            self.ultimos_assistidos[8] = self.ultimos_assistidos[7]
+            self.ultimos_assistidos[7] = self.ultimos_assistidos[6]
+            self.ultimos_assistidos[6] = self.ultimos_assistidos[5]
+            self.ultimos_assistidos[4] = self.ultimos_assistidos[3]
+            self.ultimos_assistidos[3] = self.ultimos_assistidos[2]
+            self.ultimos_assistidos[2] = self.ultimos_assistidos[1]
+            self.ultimos_assistidos[1] = self.ultimos_assistidos[0]
+            self.ultimos_assistidos[0] = midia.id
+            print(self.ultimos_assistidos)
         else:
-            self.ultimos_assistidos.append(midia)
-
+            self.ultimos_assistidos.append(midia.id)
+            print(self.ultimos_assistidos)
     def favoritar(midia):
         pass
 
