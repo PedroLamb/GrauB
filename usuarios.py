@@ -83,10 +83,16 @@ class Perfil:
         pass
 
     def assistir(self, midia):
+        count = 0
         print('{} está sendo exibido.'.format(midia.titulo))
+        for conteudo in self.ultimos_assistidos:
+            if conteudo == '-':
+                pass
+            else:
+                count+=1
         if midia.id in self.ultimos_assistidos:
             return
-        if self.ultimoAssistidoCheio() is True:
+        if count == 9:
             self.ultimos_assistidos[9] = self.ultimos_assistidos[8]
             self.ultimos_assistidos[8] = self.ultimos_assistidos[7]
             self.ultimos_assistidos[7] = self.ultimos_assistidos[6]
@@ -103,10 +109,16 @@ class Perfil:
             print(self.ultimos_assistidos)
 
     def assistirSerie(self, midia, episodio):
+        count = 0
         print('{} - Episódio {} está sendo exibido.'.format(midia.titulo, episodio))
+        for conteudo in self.ultimos_assistidos:
+            if conteudo == '-':
+                pass
+            else:
+                count+=1
         if midia.id in self.ultimos_assistidos:
             return
-        if self.ultimoAssistidoCheio() is True:
+        if count == 9:
             self.ultimos_assistidos[9] = self.ultimos_assistidos[8]
             self.ultimos_assistidos[8] = self.ultimos_assistidos[7]
             self.ultimos_assistidos[7] = self.ultimos_assistidos[6]

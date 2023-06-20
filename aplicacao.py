@@ -10,6 +10,8 @@ perfis_atual = []
 perfil_acessado = []
 midia_acessada = []
 episodios = []
+novo_favorito = []
+novo_ultimo = []
 
 
 class Aplicacao:
@@ -319,8 +321,32 @@ class Aplicacao:
                 midia_acessada.append(catalogo_geral.lista_programasdetv[int(escolha_programadetv)-1])
                 self.tela = 3            
         elif opcao == '9':
+            novo_favorito = perfil_acessado[0].lista_favoritos
+            novo_ultimo = perfil_acessado[0].ultimos_assistidos
+            print (novo_favorito)
+            print (novo_ultimo)
+            count = 0
+            with open('./arquivos/perfis.csv', mode='r', newline='') as perfisArq:
+                reader = csv.reader(perfisArq, delimiter=';')
+                perfilfavult = list(reader)
+                for perfil in perfilfavult:
+                    count+=1
+                    if perfil[1] == perfil_acessado[0].nome:
+                            perfilfavult[count-1][3:12] = novo_favorito[0:9]
+                            perfilfavult[count-1][13:22] = novo_ultimo[0:9] 
+                            with open('./arquivos/perfis.csv', mode='w', newline='') as perfisArq:
+                                writer = csv.writer(perfisArq, delimiter=';')
+                                writer.writerows(perfilfavult)
+
+                input('Pressione ENTER para continuar...')             
             perfil_acessado.clear()
             self.tela = 1
+
+
+
+
+
+
 
     def telaMidia(self):
         os.system('cls')
