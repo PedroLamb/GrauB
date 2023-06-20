@@ -126,65 +126,126 @@ class Aplicacao:
         os.system('cls')
         print('Olá {}!'.format(usuario_atual[0].nome))
         num = 1
+        perfis_atual.clear()
+        with open('./arquivos/perfis.csv', mode='r', newline='') as perfisArq:
+            reader = csv.reader(perfisArq, delimiter=';')
+            for row in reader:
+                if row[0] == usuario_atual[0].nome:
+                    perfil = Perfil(row[1], row[2])
+                    perfil.lista_favoritos = row[3:13]
+                    perfil.ultimos_assistidos = row[13:23]
+                    perfis_atual.append(perfil)
         for perfil in perfis_atual:
             print('Perfil {}: {}'.format(num, perfil.nome))
             num += 1
             tamanho2 = len(perfis_atual) +1
         opcao = menuPerfis()
+        if opcao == '1':
+            escolha = input('Você gostaria de trocar sua assinatura? (Simples -> Premium | Premium -> Simples)(Sim/Não)')
+            if escolha == 'Sim':
+                usuario_atual[0].trocarAssinatura()
+                return
+            elif escolha == 'Não':
+                print('Retornando ao menu principal...')
+                input('Pressione ENTER para prosseguir...')
+                return
+            else:
+                print('Escolha inválida, retornando ao menu principal...')
+                input('Pressione ENTER para prosseguir.')
         if opcao == '2':
-            os.system('cls')
-            num3 = 1
-            tamanho = len(perfis_atual) + 1
-            for perfil in perfis_atual:
-                print('Perfil {}: {}'.format(num3, perfil.nome))
-                num3+=1
-            perfil_escolha = int(input('Escolha qual perfil acessar: '))
-            if perfil_escolha > tamanho2:
-                print('Escolha um perfil válido...')
-                input('Pressione ENTER para retornar ao menu anterior...')
-                return
-            else:
-                perfil_acessado.append(perfis_atual[perfil_escolha-1])
-                self.tela = 2
-        elif opcao == '3':
-            os.system('cls')
-            num2 = 1
-            tamanho = len(perfis_atual) + 1
-            for perfil in perfis_atual:
-                print('Perfil {}: {}'.format(num2, perfil.nome))
-                num2 += 1
-            perfil_editar = int(input('Selecione um perfil para editar: '))
-            if perfil_editar > tamanho:
-                num2 = 1
-                print('Esse perfil não existe...')
-                return
-            else:
-                num2 = 1
-                novo_nome = input('Escolha um novo nome para o perfil: ')
-                nova_idade = input('Escolha uma nova idade para o perfil: ')
-                nome_antigo = str(perfis_atual[perfil_editar - 1].nome)
-                perfis_atual[perfil_editar - 1].editarPerfil(novo_nome, nova_idade)
-                print('Perfil editado com sucesso.')
+            if len(perfis_atual) == 0:
+                print('É preciso criar um perfil para continuar, retornando ao menu inicial...')
                 input('Pressione ENTER para continuar...')
-                rows = []
-                count = 0
-                with open('./arquivos/perfis.csv', mode='r', newline='') as perfisArq:
-                    reader = csv.reader(perfisArq, delimiter=';')
-                    rows = list(reader)
-
-                if perfil_editar < len(rows):
-                    for perfil in rows:
-                        count+=1
-                        if perfil[1] == nome_antigo:
-                            rows[count-1][1] = novo_nome
-                            rows[count-1][2] = nova_idade
-                    with open('./arquivos/perfis.csv', mode='w', newline='') as perfisArq:
-                        writer = csv.writer(perfisArq, delimiter=';')
-                        writer.writerows(rows)
+            else:
+                os.system('cls')
+                num3 = 1
+                tamanho = len(perfis_atual) + 1
+                for perfil in perfis_atual:
+                    print('Perfil {}: {}'.format(num3, perfil.nome))
+                    num3+=1
+                perfil_escolha = int(input('Escolha qual perfil acessar: '))
+                if perfil_escolha > tamanho2:
+                    print('Escolha um perfil válido...')
+                    input('Pressione ENTER para retornar ao menu anterior...')
+                    return
                 else:
-                    print('Esse perfil não existe no arquivo CSV.')
-
+                    perfil_acessado.append(perfis_atual[perfil_escolha-1])
+                    self.tela = 2
+        elif opcao == '3':
+            if len(perfis_atual) == 0:
+                print('É preciso criar um perfil para continuar, retornando ao menu inicial...')
                 input('Pressione ENTER para continuar...')
+            else:            
+                os.system('cls')
+                num2 = 1
+                tamanho = len(perfis_atual) + 1
+                for perfil in perfis_atual:
+                    print('Perfil {}: {}'.format(num2, perfil.nome))
+                    num2 += 1
+                perfil_editar = int(input('Selecione um perfil para editar: '))
+                if perfil_editar > tamanho:
+                    num2 = 1
+                    print('Esse perfil não existe...')
+                    return
+                else:
+                    num2 = 1
+                    novo_nome = input('Escolha um novo nome para o perfil: ')
+                    nova_idade = input('Escolha uma nova idade para o perfil: ')
+                    nome_antigo = str(perfis_atual[perfil_editar - 1].nome)
+                    perfis_atual[perfil_editar - 1].editarPerfil(novo_nome, nova_idade)
+                    print('Perfil editado com sucesso.')
+                    input('Pressione ENTER para continuar...')
+                    rows = []
+                    count = 0
+                    with open('./arquivos/perfis.csv', mode='r', newline='') as perfisArq:
+                        reader = csv.reader(perfisArq, delimiter=';')
+                        rows = list(reader)
+
+                    if perfil_editar < len(rows):
+                        for perfil in rows:
+                            count+=1
+                            if perfil[1] == nome_antigo:
+                                rows[count-1][1] = novo_nome
+                                rows[count-1][2] = nova_idade
+                        with open('./arquivos/perfis.csv', mode='w', newline='') as perfisArq:
+                            writer = csv.writer(perfisArq, delimiter=';')
+                            writer.writerows(rows)
+                    else:
+                        print('Esse perfil não existe no arquivo CSV.')
+
+                    input('Pressione ENTER para continuar...')
+        elif opcao == '4':
+            if usuario_atual[0].tipoAssinatura == 'Simples' and len(perfis_atual) < 3 or usuario_atual[0].tipoAssinatura == 'Premium' and len(perfis_atual) < 5:           
+                nome = input('Escolha um nome para o perfil: ')
+                idade = input('Escolha uma idade para o perfil: ')
+                perfil = usuario_atual[0].adicionarPerfil(nome, idade)
+                usuario_atual[0].lista_perfis.append(perfil)
+            else:
+                print('Capacidade máxima de perfis alcançada, exclua um para adicionar outro.')
+                input('Pressione ENTER para continuar...')
+        elif opcao == '5':
+            if len(perfis_atual) == 0:
+                print('É preciso criar um perfil para continuar, retornando ao menu inicial...')
+                input('Pressione ENTER para continuar...')
+            else:            
+                os.system('cls')
+                print(perfis_atual)
+                if len(perfis_atual) != 0:
+                    num4 = 1
+                    tamanho = len(perfis_atual) + 1
+                    for perfil in perfis_atual:
+                        print('Perfil {}: {}'.format(num4, perfil.nome))
+                        num4+=1
+                    perfil_escolha = int(input('Escolha qual perfil remover: '))
+                    if perfil_escolha > tamanho2:
+                        print('Escolha um perfil válido...')
+                        input('Pressione ENTER para retornar ao menu anterior...')
+                        return
+                    else:
+                        usuario_atual[0].removerPerfil(perfis_atual[perfil_escolha-1].nome)
+                        perfis_atual.pop(perfil_escolha-1)
+                        self.tela = 1
+                
         elif opcao == '6':
             usuario_atual.clear()
             perfis_atual.clear()
@@ -193,12 +254,12 @@ class Aplicacao:
     def telaLogado(self):
         opcao = menuLogado()
         if opcao == '1':
-            nome_procura = input('Procure o nome da mídia que deseja procurar: ')
+            nome_procura = input('Escreva o nome da mídia que deseja procurar: ')
             for midia in catalogo_geral.lista_animacoes + catalogo_geral.lista_documentarios + catalogo_geral.lista_filmes + catalogo_geral.lista_programasdetv + catalogo_geral.lista_series:
                 if midia.titulo == nome_procura:
                     if int(perfil_acessado[0].idade) >= 18 or midia.classificacao != '18':
-                        print(midia.titulo)
-                        break
+                        midia_acessada.append(midia)
+                        self.tela = 3
                     else:
                         print('Mídia +18 bloqueada.')
                         break
@@ -323,28 +384,25 @@ class Aplicacao:
         elif opcao == '9':
             novo_favorito = perfil_acessado[0].lista_favoritos
             novo_ultimo = perfil_acessado[0].ultimos_assistidos
-            print (novo_favorito)
-            print (novo_ultimo)
+            print(novo_favorito)
+            print(novo_ultimo)
             count = 0
             with open('./arquivos/perfis.csv', mode='r', newline='') as perfisArq:
                 reader = csv.reader(perfisArq, delimiter=';')
-                perfilfavult = list(reader)
-                for perfil in perfilfavult:
-                    count+=1
+                rows = list(reader)
+                for perfil in rows:
+                    count += 1
                     if perfil[1] == perfil_acessado[0].nome:
-                            perfilfavult[count-1][3:12] = novo_favorito[0:9]
-                            perfilfavult[count-1][13:22] = novo_ultimo[0:9] 
-                            with open('./arquivos/perfis.csv', mode='w', newline='') as perfisArq:
-                                writer = csv.writer(perfisArq, delimiter=';')
-                                writer.writerows(perfilfavult)
+                        rows[count - 1][3:12] = novo_favorito[0:9]
+                        rows[count - 1][13:22] = novo_ultimo[0:9]
 
-                input('Pressione ENTER para continuar...')             
+            with open('./arquivos/perfis.csv', mode='w', newline='') as perfisArq:
+                writer = csv.writer(perfisArq, delimiter=';')
+                writer.writerows(rows)
+
+            input('Pressione ENTER para continuar...')
             perfil_acessado.clear()
             self.tela = 1
-
-
-
-
 
 
 
@@ -358,7 +416,10 @@ class Aplicacao:
                 escolha_episodio = input('Escolha um episódio para assistir: ')
                 perfil_acessado[0].assistirSerie(midia_acessada[0], escolha_episodio)
                 input('Pressione ENTER para prosseguir...')
-            if opcao == '3':
+            elif opcao == '2':
+                perfil_acessado[0].favoritar(midia_acessada[0])
+                input('Pressione ENTER para prosseguir...')
+            elif opcao == '3':
                 midia_acessada.clear()
                 self.tela = 2
         else:
@@ -367,7 +428,10 @@ class Aplicacao:
                 perfil_acessado[0].assistir(midia_acessada[0])
                 input('Pressione ENTER para prosseguir...')
                 return
-            if opcao == '3':
+            elif opcao == '2':
+                perfil_acessado[0].favoritar(midia_acessada[0])
+                input('Pressione ENTER para prosseguir...')
+            elif opcao == '3':
                 midia_acessada.clear()
                 self.tela = 2
 

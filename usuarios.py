@@ -50,15 +50,64 @@ class Usuario:
             input('Pressione ENTER para retornar ao menu inicial...')
 
 
-    def adicionarPerfil(self,nome,idade):
-        perfil=[]
-        if self._tipoAsinatura == 'Simples' and len(perfil) < 3:
-            perfil.append(nome,idade)
+    def adicionarPerfil(self, nome, idade):
+        perfil = Perfil(nome, idade)
+        with open('./arquivos/perfis.csv', 'a', newline='') as arquivo_csv:
+            escritor = csv.writer(arquivo_csv, delimiter=';')
+            escritor.writerow([self.nome, nome, idade, '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'])
             return perfil
-        elif  self._tipoAsinatura == 'Premium' and len(perfil) < 5:
-            perfil.append(nome, idade)
-            return perfil
+          
         
+    def trocarAssinatura(self):
+        if self.tipoAssinatura == 'Premium' and len(self.lista_perfis) > 3:
+            print('Remova um perfil para prosseguir...')
+            input('Pressione ENTER para prosseguir.')
+        elif self.tipoAssinatura == 'Premium' and len(self.lista_perfis) <= 3:
+            self.tipoAssinatura = 'Simples'
+            with open('./arquivos/usuarios.csv', 'r', newline='') as arquivo_csv:
+                reader = csv.reader(arquivo_csv, delimiter=';')
+                rows = list(reader)
+
+            for perfil in rows:
+                if perfil[1] == self.nome:
+                    perfil[3] = 'Simples'
+
+            with open('./arquivos/usuarios.csv', 'w', newline='') as arquivo_csv:
+                writer = csv.writer(arquivo_csv, delimiter=';')
+                writer.writerows(rows)            
+            print('Assinatura trocada de Premium para Simples com sucesso.')
+            input('Pressione ENTER para prosseguir.')
+        elif self.tipoAssinatura == 'Simples':
+            with open('./arquivos/usuarios.csv', 'r', newline='') as arquivo_csv:
+                reader = csv.reader(arquivo_csv, delimiter=';')
+                rows = list(reader)
+
+            for perfil in rows:
+                if perfil[1] == self.nome:
+                    perfil[3] = 'Premium'
+
+            with open('./arquivos/usuarios.csv', 'w', newline='') as arquivo_csv:
+                writer = csv.writer(arquivo_csv, delimiter=';')
+                writer.writerows(rows)   
+            self.tipoAssinatura = 'Premium'
+            print('Assinatura trocada de Simples para Premium com sucesso.')
+            input('Pressione ENTER para prosseguir...')   
+
+
+    def removerPerfil(self,nome_perfil):
+        with open('./arquivos/perfis.csv', 'r', newline='') as arquivo_csv:
+            reader = csv.reader(arquivo_csv, delimiter=';')
+            rows = list(reader)
+
+        for i, perfil in enumerate(rows):
+            if perfil[1] == nome_perfil:
+                rows.pop(i)
+                break
+
+        with open('./arquivos/perfis.csv', 'w', newline='') as arquivo_csv:
+            writer = csv.writer(arquivo_csv, delimiter=';')
+            writer.writerows(rows)
+
 class Perfil:
     def __init__(self, nome, idade):
          self.nome = nome
@@ -105,8 +154,13 @@ class Perfil:
             print (self.ultimos_assistidos)
 
         else:
-            self.ultimos_assistidos.append(midia.id)
-            print(self.ultimos_assistidos)
+            count2 = 0
+            for conteudo in self.ultimos_assistidos:
+                if conteudo == '-':
+                    pass
+                else:
+                    count2+=1
+            self.ultimos_assistidos[count2] = midia.id
 
     def assistirSerie(self, midia, episodio):
         count = 0
@@ -118,7 +172,7 @@ class Perfil:
                 count+=1
         if midia.id in self.ultimos_assistidos:
             return
-        if count == 9:
+        elif count == 10:
             self.ultimos_assistidos[9] = self.ultimos_assistidos[8]
             self.ultimos_assistidos[8] = self.ultimos_assistidos[7]
             self.ultimos_assistidos[7] = self.ultimos_assistidos[6]
@@ -130,10 +184,45 @@ class Perfil:
             self.ultimos_assistidos[0] = midia.id
             print(self.ultimos_assistidos)
         else:
-            self.ultimos_assistidos.append(midia.id)
-            print(self.ultimos_assistidos)
-    def favoritar(midia):
-        pass
+            count2 = 0
+            for conteudo in self.ultimos_assistidos:
+                if conteudo == '-':
+                    pass
+                else:
+                    count2+=1
+            self.ultimos_assistidos[count2] = midia.id
+
+    def favoritar(self, midia):
+        count = 0
+        for conteudo in self.lista_favoritos:
+            if conteudo == '-':
+                pass
+            else:
+                count+=1
+        if midia.id in self.lista_favoritos:
+                self.lista_favoritos.pop(midia.id)
+                print('Item removido dos favoritos com sucesso...')
+                pass
+        elif count == 10:
+            self.lista_favoritos[9] = self.lista_favoritos[8]
+            self.lista_favoritos[8] = self.lista_favoritos[7]
+            self.lista_favoritos[7] = self.lista_favoritos[6]
+            self.lista_favoritos[6] = self.lista_favoritos[5]
+            self.lista_favoritos[5] = self.lista_favoritos[4]
+            self.lista_favoritos[4] = self.lista_favoritos[3]
+            self.lista_favoritos[3] = self.lista_favoritos[2]
+            self.lista_favoritos[2] = self.lista_favoritos[1]
+            self.lista_favoritos[0] = midia.id
+        else:
+            count2 = 0
+            for conteudo in self.lista_favoritos:
+                if conteudo == '-':
+                    pass
+                else:
+                    count2+=1
+            self.lista_favoritos[count2] = midia.id
+                
+
 
     def buscarPorTitulo(titulo, catalogo):
         pass
